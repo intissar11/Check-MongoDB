@@ -1,0 +1,172 @@
+intissar@DESKTOP-55M2FOH MINGW64 ~/Desktop/check mongo
+$ mongo
+MongoDB shell version v4.4.6
+connecting to: mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName=mongodb
+Implicit session: session { "id" : UUID("66a99afe-8d73-4a54-8586-f90d0dd556a6") }
+MongoDB server version: 4.4.6
+show dbs
+admin    0.000GB
+config   0.000GB
+contact  0.000GB
+local    0.000GB
+db.dropDatabase()
+{ "ok" : 1 }
+show dbs
+admin    0.000GB
+config   0.000GB
+contact  0.000GB
+local    0.000GB
+
+intissar@DESKTOP-55M2FOH MINGW64 ~/Desktop/check mongo
+$ mongo
+MongoDB shell version v4.4.6
+connecting to: mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName=mongodb
+Implicit session: session { "id" : UUID("2507fb9b-7e09-4962-b464-fe8c5bf86aad") }
+MongoDB server version: 4.4.6
+show dbs
+admin    0.000GB
+config   0.000GB
+contact  0.000GB
+local    0.000GB
+use contact
+switched to db contact
+db.dropDatabase()
+{ "dropped" : "contact", "ok" : 1 }
+show dbs
+admin   0.000GB
+config  0.000GB
+local   0.000GB
+use contact
+switched to db contact
+db.contactlist.insertMany([{LastName:"Ben Lahmer",FirstName:"Fares",Email:"fares@gmail.com",age:26},{LastName:"Kefi",FirstName:"Seif",Email:"kefi@gmail.com",age:15},{LastName:"Fatnassi",FirstName:"Sarra",Email:"sarra.f@gmail.com",age:40},{LastName:"Ben Yahia",FirstName:"Rym",age:4},{LastName:"Cherif",FirstName:"Sami",age:3}])
+{{
+        "acknowledged" : true,
+        "insertedIds" : [
+                ObjectId("60d23900e711847a22e6565d"),
+                ObjectId("60d23900e711847a22e6565e"),
+                ObjectId("60d23900e711847a22e6565f"),
+                ObjectId("60d23900e711847a22e65660"),
+                ObjectId("60d23900e711847a22e65661")
+        ]
+}
+db.contactlist.find().pretty()
+show dbs
+
+intissar@DESKTOP-55M2FOH MINGW64 ~/Desktop/check mongo
+$ use contact
+bash: use: command not found
+
+intissar@DESKTOP-55M2FOH MINGW64 ~/Desktop/check mongo
+$ mongo
+MongoDB shell version v4.4.6
+connecting to: mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName=mongodb
+Implicit session: session { "id" : UUID("a84a76ed-f3cc-467f-920d-2eee47ec14eb") }
+MongoDB server version: 4.4.6
+use contact
+switched to db contact
+db.contactlist.find().pretty()
+{
+        "_id" : ObjectId("60d23900e711847a22e6565d"),
+        "LastName" : "Ben Lahmer",
+        "FirstName" : "Fares",
+        "Email" : "fares@gmail.com",
+        "age" : 26
+}
+{
+        "_id" : ObjectId("60d23900e711847a22e6565e"),
+        "LastName" : "Kefi",
+        "FirstName" : "Seif",
+        "Email" : "kefi@gmail.com",
+        "age" : 15
+}
+{
+        "_id" : ObjectId("60d23900e711847a22e6565f"),
+        "LastName" : "Fatnassi",
+        "FirstName" : "Sarra",
+        "Email" : "sarra.f@gmail.com",
+        "age" : 40
+}
+{
+        "_id" : ObjectId("60d23900e711847a22e65660"),
+        "LastName" : "Ben Yahia",
+        "FirstName" : "Rym",
+        "age" : 4
+}
+{
+        "_id" : ObjectId("60d23900e711847a22e65661"),
+        "LastName" : "Cherif",
+        "FirstName" : "Sami",
+        "age" : 3
+}
+
+db.contactlist.find({LastName:{$regex:/ah/}})
+{ "_id" : ObjectId("60d23900e711847a22e6565d"), "LastName" : "Ben Lahmer", "FirstName" : "Fares", "Email" : "fares@gmail.com", "age" : 26 }
+{ "_id" : ObjectId("60d23900e711847a22e65660"), "LastName" : "Ben Yahia", "FirstName" : "Rym", "age" : 4 }
+
+db.contactlist.find({age:{$gt:18}})
+{ "_id" : ObjectId("60d23900e711847a22e6565d"), "LastName" : "Ben Lahmer", "FirstName" : "Fares", "Email" : "fares@gmail.com", "age" : 26 }
+{ "_id" : ObjectId("60d23900e711847a22e6565f"), "LastName" : "Fatnassi", "FirstName" : "Sarra", "Email" : "sarra.f@gmail.com", "age" : 40 }
+db.contactlist.find({age:{$gt:18}}, {"LastName":/ah/})
+{ "_id" : ObjectId("60d23900e711847a22e6565d"), "LastName" : /ah/ }
+{ "_id" : ObjectId("60d23900e711847a22e6565f"), "LastName" : /ah/ }
+db.contactlist.update({LastName:"Kefi"},{$set:{FirstName:"Anis"}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+db.contactlist.find().pretty()
+{
+        "_id" : ObjectId("60d23900e711847a22e6565d"),
+        "LastName" : "Ben Lahmer",
+        "FirstName" : "Fares",
+        "Email" : "fares@gmail.com",
+        "age" : 26
+}
+{
+        "_id" : ObjectId("60d23900e711847a22e6565e"),
+        "LastName" : "Kefi",
+        "FirstName" : "Anis",
+        "Email" : "kefi@gmail.com",
+        "age" : 15
+}
+{
+        "_id" : ObjectId("60d23900e711847a22e6565f"),
+        "LastName" : "Fatnassi",
+        "FirstName" : "Sarra",
+        "Email" : "sarra.f@gmail.com",
+        "age" : 40
+}
+{
+        "_id" : ObjectId("60d23900e711847a22e65660"),
+        "LastName" : "Ben Yahia",
+        "FirstName" : "Rym",
+        "age" : 4
+}
+{
+        "_id" : ObjectId("60d23900e711847a22e65661"),
+        "LastName" : "Cherif",
+        "FirstName" : "Sami",
+        "age" : 3
+}
+db.contactlist.remove({age:{$lt:5}})
+WriteResult({ "nRemoved" : 2 })
+db.contactlist.find().pretty()
+{
+        "_id" : ObjectId("60d23900e711847a22e6565d"),
+        "LastName" : "Ben Lahmer",
+        "FirstName" : "Fares",
+        "Email" : "fares@gmail.com",
+        "age" : 26
+}
+{
+        "_id" : ObjectId("60d23900e711847a22e6565e"),
+        "LastName" : "Kefi",
+        "FirstName" : "Anis",
+        "Email" : "kefi@gmail.com",
+        "age" : 15
+}
+{
+        "_id" : ObjectId("60d23900e711847a22e6565f"),
+        "LastName" : "Fatnassi",
+        "FirstName" : "Sarra",
+        "Email" : "sarra.f@gmail.com",
+        "age" : 40
+}
+
